@@ -29,4 +29,62 @@ model.add(Dense(1, activation='sigmoid'))
 
 # 딥러닝을 실행합니다.
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-model.fit(X, Y, epochs=100, batch_size=10)
+# model.fit(X, Y, epochs=100, batch_size=10)
+
+
+x = [2, 4, 6, 8]
+y = [81, 93, 91, 97]
+
+mx = np.mean(x)
+my = np.mean(y)
+
+divisor = sum([(i - mx)**2 for i in x])
+
+
+def top(x, mx, y, my):
+    d = 0
+    for i in range(len(x)):
+        d += (x[i] - mx) * (y[i] - my)
+
+    return d
+
+
+dividend = top(x, mx, y, my)
+
+print("분모:", divisor)
+print("분자:", dividend)
+
+
+a = dividend / divisor
+b = my - (mx*a)
+
+print("기울기 a =", a)
+print("y 절편 b =", b)
+
+
+fake_a_b = [3, 76]
+
+data = [[2, 81], [4, 93], [6, 91], [8, 97]]
+
+x = [i[0] for i in data]
+y = [i[1] for i in data]
+
+
+def predict(x):
+    return fake_a_b[0]*x + fake_a_b[1]
+
+def mse(y, y_hat):
+    return ((y-y_hat)**2).mean()
+
+def mse_val(y, predict_result):
+    return mse(np. array(y), np.array(predict_result))
+
+
+predict_result = []
+
+for i in range(len(x)):
+    predict_result.append(predict(x[i]))
+    print("공부시간:%.f, 실제 점수:%.f, 예측 점수:%.f" % (x[i], y[i], predict(x[i])))
+
+
+print("mse 최종값: " + str(mse_val(y, predict_result)))
